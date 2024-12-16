@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Seller {
+  id             String           @id @default(uuid())
+  shopName       String           @unique
+  surname        String
+  name           String
+  patronyc       String?
+  email          String           @unique
+  password       String
+  logo           String
+  sellerCategory SellerCategory[]
+}
+
+model SellerCategory {
+  id       String  @id @default(uuid())
+  name     String  @unique
+  seller   Seller? @relation(fields: [sellerId], references: [id])
+  sellerId String?
+}
+
+model Client {
+  id       String  @id @default(uuid())
+  name     String
+  surname  String
+  email    String  @unique
+  phone    String  @unique
+  password String
+  cart     Cart?
+  order    Order[]
+}
+
+model Product {
+  id              String            @id @default(uuid())
+  name            String
+  description     String
+  price           Float
+  img             String
+  isAvailable     Boolean           @default(true)
+  isPopulr        Boolean           @default(false)
+  isDeleted       Boolean           @default(false)
+  createdAt       DateTime          @default(now())
+  productCategory ProductCategory[]
+  cartProduct     CartProduct[]
+  orderProduct    OrderProduct[]
+}
+
+model ProductCategory {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+}
+
+model Cart {
+  id          String        @id @default(uuid())
+  sum         Float
+  client      Client        @relation(fields: [clientId], references: [id])
+  clientId    String        @unique
+  cartProduct CartProduct[]
+}
+
+model CartProduct {
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  cartId    String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  count     Int
+
+  @@id([cartId, productId])
+}
+
+model Order {
+  id           String         @id @default(uuid())
+  date         DateTime
+  sum          Float
+  orderProduct OrderProduct[]
+  client       Client?        @relation(fields: [clientId], references: [id])
+  clientId     String?
+}
+
+model OrderProduct {
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  count     Int
+
+  @@id([orderId, productId])
+}
