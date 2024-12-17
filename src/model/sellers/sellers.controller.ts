@@ -13,4 +13,10 @@ export class SellersController {
   async getProfile(@DecodeSeller() seller: Seller) {
     return seller;
   }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async get() {
+    return { message: true };
+  }
 }

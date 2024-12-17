@@ -6,7 +6,7 @@ import { ClientsService } from 'src/model/clients/clients.service';
 import { SellersService } from 'src/model/sellers/sellers.service';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     private readonly configService: ConfigService,
     private readonly clientsService: ClientsService,
@@ -15,21 +15,25 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get('ACCESS_TOKEN'),
+      secretOrKey: configService.get<string>('ACCESS_TOKEN'),
     });
   }
 
   async validate(payload: { id: string; type: string }) {
+    console.log('Payload:', payload);
     const { id, type } = payload;
 
+    let user;
     if (type === 'client') {
-      return this.clientsService.findById(id);
+      user = await this.clientsService.findById(id);
+    } else if (type === 'seller') {
+      user = await this.sellersService.findById(id);
     }
 
-    if (type === 'seller') {
-      return this.sellersService.findById(id);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
     }
 
-    throw new UnauthorizedException('Invalid token type');
+    return { ...user, type }; // Ensure the `type` is included in the returned object
   }
 }
