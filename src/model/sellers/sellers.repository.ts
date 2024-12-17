@@ -12,7 +12,10 @@ export class SellersRepository {
   }
 
   async findById(id: string) {
-    return this.prisma.seller.findUnique({ where: { id } });
+    return this.prisma.seller.findUnique({
+      where: { id },
+      include: { sellerCategory: true, products: true },
+    });
   }
 
   async findByEmail(email: string) {
