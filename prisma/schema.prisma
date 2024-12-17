@@ -19,9 +19,10 @@ model Seller {
   surname        String
   name           String
   patronyc       String?
+  phone          String           @unique
   email          String           @unique
   password       String
-  logo           String
+  logo           String?
   sellerCategory SellerCategory[]
 }
 
@@ -50,7 +51,7 @@ model Product {
   price           Float
   img             String
   isAvailable     Boolean           @default(true)
-  isPopulr        Boolean           @default(false)
+  isPopular       Boolean           @default(false)
   isDeleted       Boolean           @default(false)
   createdAt       DateTime          @default(now())
   productCategory ProductCategory[]

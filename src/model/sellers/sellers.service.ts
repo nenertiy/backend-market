@@ -1,40 +1,40 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PasswordService } from '../password/password.service';
-import { CreateClientDto } from './dto/create-client.dto';
-import { UpdateClientDto } from './dto/update-client.dto';
-import { ClientsRepository } from './clients.repository';
+import { SellersRepository } from './sellers.repository';
+import { CreateSellerDto } from './dto/create-seller.dto';
+import { UpdateClientDto } from '../clients/dto/update-client.dto';
 
 @Injectable()
-export class ClientsService {
+export class SellersService {
   constructor(
-    private readonly clientsRepository: ClientsRepository,
+    private readonly sellersRepository: SellersRepository,
     private readonly passwordService: PasswordService,
   ) {}
 
-  async createClient(dto: CreateClientDto) {
+  async createSeller(dto: CreateSellerDto) {
     await this.existUserByEmail(dto.email);
     const hashPassword = await this.passwordService.hashPassword(dto.password);
-    return this.clientsRepository.createClient({
+    return this.sellersRepository.createSeller({
       ...dto,
       password: hashPassword,
     });
   }
 
-  async updateClient(id: string, dto: UpdateClientDto) {
-    await this.existUserbyId(id);
+  async updateSeller(id: string, dto: UpdateClientDto) {
+    await !this.existUserbyId(id);
     const hashPassword = await this.passwordService.hashPassword(dto.password);
-    return this.clientsRepository.updateClient(id, {
+    return this.sellersRepository.updateSeller(id, {
       ...dto,
       password: hashPassword,
     });
-  }
-
-  async findById(id: string) {
-    return this.clientsRepository.findById(id);
   }
 
   async findByEmail(email: string) {
-    return this.clientsRepository.findByEmail(email);
+    return this.sellersRepository.findByEmail(email);
+  }
+
+  async findById(id: string) {
+    return this.sellersRepository.findById(id);
   }
 
   private async existUserByEmail(email: string) {
@@ -46,7 +46,7 @@ export class ClientsService {
 
   private async existUserbyId(id: string) {
     const exist = await this.findById(id);
-    if (!exist) {
+    if (exist) {
       throw new BadRequestException();
     }
   }

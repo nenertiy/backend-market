@@ -9,5 +9,6 @@ import { ClientsService } from './clients.service';
   controllers: [ClientsController],
   providers: [ClientsService, ClientsRepository, PrismaService],
   imports: [PasswordModule],
+  exports: [ClientsService],
 })
 export class ClientsModule {}

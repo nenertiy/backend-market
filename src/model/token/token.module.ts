@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { TokenService } from './token.service';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ClientsModule } from '../clients/clients.module';
+import { SellersModule } from '../sellers/sellers.module';
 
 @Module({
   imports: [
@@ -17,6 +18,8 @@ import { ClientsModule } from '../clients/clients.module';
     }),
     PassportModule,
     ClientsModule,
+    SellersModule,
+    ConfigModule,
   ],
   providers: [TokenService, JwtStrategy],
   exports: [TokenService, JwtStrategy],

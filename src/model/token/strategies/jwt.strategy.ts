@@ -1,15 +1,16 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
-import { Client } from 'src/common/types/client';
 import { ClientsService } from 'src/model/clients/clients.service';
+import { SellersService } from 'src/model/sellers/sellers.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly configService: ConfigService,
-    private readonly usersService: ClientsService,
+    private readonly clientsService: ClientsService,
+    private readonly sellersService: SellersService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -18,7 +19,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(user: Client) {
-    return await this.usersService.findById(user.id);
+  async validate(payload: { id: string; type: string }) {
+    const { id, type } = payload;
+
+    if (type === 'client') {
+      return this.clientsService.findById(id);
+    }
+
+    if (type === 'seller') {
+      return this.sellersService.findById(id);
+    }
+
+    throw new UnauthorizedException('Invalid token type');
   }
 }
