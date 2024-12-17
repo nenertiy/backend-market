@@ -20,7 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: { id: string; type: string }) {
-    console.log('Payload:', payload);
     const { id, type } = payload;
 
     let user;
@@ -34,6 +33,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       throw new UnauthorizedException('User not found');
     }
 
-    return { ...user, type }; // Ensure the `type` is included in the returned object
+    return { ...user, type };
   }
 }
