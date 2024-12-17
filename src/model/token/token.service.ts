@@ -9,13 +9,13 @@ export class TokenService {
     private readonly configService: ConfigService,
   ) {}
 
-  async generateAccessToken(id: string) {
-    return this.jwtService.sign({ id });
+  async generateAccessToken(id: string, type: 'client' | 'seller') {
+    return this.jwtService.sign({ id, type });
   }
 
-  async generateRefreshToken(id: string) {
+  async generateRefreshToken(id: string, type: 'client' | 'seller') {
     return this.jwtService.sign(
-      { id },
+      { id, type },
       { secret: this.configService.get('REFRESH_TOKEN'), expiresIn: '30d' },
     );
   }
