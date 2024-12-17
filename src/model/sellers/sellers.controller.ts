@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { SellersService } from './sellers.service';
 import { DecodeSeller } from 'src/common/decorators/decode';
 import { Seller } from 'src/common/types/types';
@@ -15,5 +15,10 @@ export class SellersController {
   @Roles('seller')
   async getProfile(@DecodeSeller() seller: Seller) {
     return seller;
+  }
+
+  @Get(':id')
+  async findById(@Param('id') id: string) {
+    return this.sellersService.findById(id);
   }
 }

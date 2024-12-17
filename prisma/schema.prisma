@@ -24,6 +24,7 @@ model Seller {
   password       String
   logo           String?
   sellerCategory SellerCategory[]
+  products       Product[]
 }
 
 model SellerCategory {
@@ -57,6 +58,8 @@ model Product {
   productCategory ProductCategory[]
   cartProduct     CartProduct[]
   orderProduct    OrderProduct[]
+  Seller          Seller?           @relation(fields: [sellerId], references: [id])
+  sellerId        String?
 }
 
 model ProductCategory {
