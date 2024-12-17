@@ -16,7 +16,6 @@ export class RolesGuard implements CanActivate {
       'roles',
       context.getHandler(),
     );
-    console.log('Required Roles:', requiredRoles);
 
     if (!requiredRoles) {
       return true;
@@ -25,18 +24,14 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    console.log('Decoded User:', user);
-
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
 
     if (!requiredRoles.includes(user.type)) {
-      console.log('Access Denied: User type mismatch.');
       throw new ForbiddenException('Insufficient permissions');
     }
 
-    console.log('Access Granted');
     return true;
   }
 }

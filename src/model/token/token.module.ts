@@ -13,7 +13,7 @@ import { SellersModule } from '../sellers/sellers.module';
     PassportModule,
     ConfigModule,
     SellersModule,
-    forwardRef(() => ClientsModule), // forwardRef to resolve circular dependency
+    forwardRef(() => ClientsModule),
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
