@@ -23,6 +23,10 @@ export class SellersRepository {
   }
 
   async updateSeller(id: string, data: UpdateSellerDto) {
-    return this.prisma.seller.update({ data, where: { id } });
+    return this.prisma.seller.update({
+      data,
+      where: { id },
+      include: { sellerCategory: true },
+    });
   }
 }
