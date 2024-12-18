@@ -10,6 +10,9 @@ export class SellerCategoriesRepository {
   }
 
   async findOneSellerCategories(id: string) {
-    return this.prisma.sellerCategory.findUnique({ where: { id } });
+    return this.prisma.sellerCategory.findUnique({
+      where: { id },
+      include: { seller: true },
+    });
   }
 }
