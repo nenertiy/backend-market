@@ -5,6 +5,7 @@ import { Seller } from 'src/common/types/types';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 
 @Controller('sellers')
 export class SellersController {
@@ -13,11 +14,14 @@ export class SellersController {
   @Get('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('seller')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Получить профиль через JWT' })
   async getProfile(@DecodeSeller() seller: Seller) {
     return seller;
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Получить профиль' })
   async findById(@Param('id') id: string) {
     return this.sellersService.findById(id);
   }

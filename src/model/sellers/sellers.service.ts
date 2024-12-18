@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { PasswordService } from '../password/password.service';
 import { SellersRepository } from './sellers.repository';
 import { CreateSellerDto } from './dto/create-seller.dto';
-import { UpdateClientDto } from '../clients/dto/update-client.dto';
+import { UpdateSellerDto } from './dto/update-seller.dto';
 
 @Injectable()
 export class SellersService {
@@ -20,13 +20,17 @@ export class SellersService {
     });
   }
 
-  async updateSeller(id: string, dto: UpdateClientDto) {
+  async updateSeller(id: string, dto: UpdateSellerDto) {
     await !this.existUserbyId(id);
     const hashPassword = await this.passwordService.hashPassword(dto.password);
-    return this.sellersRepository.updateSeller(id, {
+    const updateData = {
       ...dto,
       password: hashPassword,
-    });
+      sellerCategory: dto.sellerCategoryId
+        ? { connect: dto.sellerCategoryId.map((id) => ({ id })) }
+        : undefined,
+    };
+    return this.sellersRepository.updateSeller(id, updateData);
   }
 
   async findByEmail(email: string) {
