@@ -62,7 +62,7 @@ export class SignUpSellerDto {
   @ApiProperty({ example: '123456789900', required: true })
   @Length(12)
   @IsString()
-  inn: string;
+  INN: string;
 
   @ApiProperty({
     example: 'logo.png',
