@@ -35,4 +35,18 @@ export class ProductsRepository {
       include: { productCategory: true },
     });
   }
+
+  async getRandomProducts() {
+    return this.prisma.product
+      .findMany({
+        where: { isDeleted: false },
+        include: { productCategory: true },
+        orderBy: {
+          id: 'asc',
+        },
+      })
+      .then((products) => {
+        return products.sort(() => Math.random() - 0.5);
+      });
+  }
 }

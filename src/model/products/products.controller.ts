@@ -23,6 +23,11 @@ export class ProductsController {
     return this.productsService.findAllProducts();
   }
 
+  @Get('random')
+  async getRandomProducts() {
+    return this.productsService.getRandomProducts();
+  }
+
   @Get(':id')
   async findOneProduct(@Param('id') id: string) {
     return this.productsService.findOneProduct(id);
