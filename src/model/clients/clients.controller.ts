@@ -14,7 +14,6 @@ export class ClientsController {
   @Get('profile')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('client')
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Получить профиль через JWT' })
   async getProfile(@DecodeClient() client: Client) {
     return client;
