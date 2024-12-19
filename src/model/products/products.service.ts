@@ -1,7 +1,7 @@
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsRepository } from './products.repository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Param } from '@nestjs/common';
 
 @Injectable()
 export class ProductsService {
@@ -25,5 +25,9 @@ export class ProductsService {
 
   async deleteProduct(id: string) {
     return this.productsRepository.deleteProduct(id);
+  }
+
+  async getRandomProducts() {
+    return this.productsRepository.getRandomProducts();
   }
 }
