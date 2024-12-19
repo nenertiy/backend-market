@@ -6,12 +6,18 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { AddToCartDto } from './dto/addToCart.dto';
 import { RemoveFromCartDto } from './dto/removeFromCart.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Controller('cart')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('client')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
