@@ -19,7 +19,7 @@ model Seller {
   surname        String
   name           String
   patronyc       String?
-  inn            String           @unique
+  INN            String           @unique
   phone          String           @unique
   email          String           @unique
   password       String
@@ -56,7 +56,7 @@ model Product {
   isPopular       Boolean           @default(false)
   isDeleted       Boolean           @default(false)
   createdAt       DateTime          @default(now())
-  productCategory ProductCategory[] // Many-to-many relation
+  productCategory ProductCategory[]
   seller          Seller?           @relation(fields: [sellerId], references: [id])
   sellerId        String?
   cartProduct     CartProduct[]
@@ -67,7 +67,7 @@ model ProductCategory {
   id      String    @id @default(uuid())
   name    String    @unique
   img     String
-  product Product[] // Many-to-many relation
+  product Product[]
 }
 
 model Cart {
@@ -83,7 +83,7 @@ model CartProduct {
   cartId    String
   product   Product @relation(fields: [productId], references: [id])
   productId String
-  count     Int
+  count     Int     @default(1)
 
   @@id([cartId, productId])
 }

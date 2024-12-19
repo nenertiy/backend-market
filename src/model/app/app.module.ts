@@ -7,6 +7,7 @@ import { TokenModule } from '../token/token.module';
 import { ProductCategoriesModule } from '../product-categories/product-categories.module';
 import { SellerCategoriesModule } from '../seller-categories/seller-categories.module';
 import { ProductsModule } from '../products/products.module';
+import { CartModule } from '../cart/cart.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductsModule } from '../products/products.module';
     AuthModule,
     TokenModule,
     ProductsModule,
+    CartModule,
     SellerCategoriesModule,
     ProductCategoriesModule,
   ],
