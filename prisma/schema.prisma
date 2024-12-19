@@ -19,6 +19,7 @@ model Seller {
   surname        String
   name           String
   patronyc       String?
+  inn            String           @unique
   phone          String           @unique
   email          String           @unique
   password       String
@@ -28,11 +29,10 @@ model Seller {
 }
 
 model SellerCategory {
-  id       String  @id @default(uuid())
-  name     String  @unique
-  img      String
-  seller   Seller? @relation(fields: [sellerId], references: [id])
-  sellerId String?
+  id     String   @id @default(uuid())
+  name   String   @unique
+  img    String
+  seller Seller[]
 }
 
 model Client {
@@ -56,19 +56,18 @@ model Product {
   isPopular       Boolean           @default(false)
   isDeleted       Boolean           @default(false)
   createdAt       DateTime          @default(now())
-  productCategory ProductCategory[]
+  productCategory ProductCategory[] // Many-to-many relation
+  seller          Seller?           @relation(fields: [sellerId], references: [id])
+  sellerId        String?
   cartProduct     CartProduct[]
   orderProduct    OrderProduct[]
-  Seller          Seller?           @relation(fields: [sellerId], references: [id])
-  sellerId        String?
 }
 
 model ProductCategory {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  img       String
-  product   Product? @relation(fields: [productId], references: [id])
-  productId String?
+  id      String    @id @default(uuid())
+  name    String    @unique
+  img     String
+  product Product[] // Many-to-many relation
 }
 
 model Cart {

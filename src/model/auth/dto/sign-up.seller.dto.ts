@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, Length } from 'class-validator';
 
 export class SignUpSellerDto {
   @ApiProperty({
@@ -58,6 +58,11 @@ export class SignUpSellerDto {
   })
   @IsString()
   password: string;
+
+  @ApiProperty({ example: '123456789900', required: true })
+  @Length(12)
+  @IsString()
+  inn: string;
 
   @ApiProperty({
     example: 'logo.png',

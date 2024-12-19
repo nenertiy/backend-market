@@ -58,10 +58,12 @@ export class UpdateSellerDto {
   })
   @IsString()
   @IsOptional()
-  @Length(5, 20, {
-    message: 'Password must be between 5 and 20 characters long',
-  })
   password?: string;
+
+  @ApiProperty({ example: '123456789900', required: true })
+  @Length(12)
+  @IsString()
+  inn: string;
 
   @ApiPropertyOptional({
     example: 'logo-url.png',
