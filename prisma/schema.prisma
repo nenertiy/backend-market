@@ -72,7 +72,6 @@ model ProductCategory {
 
 model Cart {
   id          String        @id @default(uuid())
-  sum         Float
   client      Client        @relation(fields: [clientId], references: [id])
   clientId    String        @unique
   cartProduct CartProduct[]
