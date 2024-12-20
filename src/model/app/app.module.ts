@@ -8,6 +8,7 @@ import { ProductCategoriesModule } from '../product-categories/product-categorie
 import { SellerCategoriesModule } from '../seller-categories/seller-categories.module';
 import { ProductsModule } from '../products/products.module';
 import { CartModule } from '../cart/cart.module';
+import { OrderModule } from '../order/order.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { CartModule } from '../cart/cart.module';
     TokenModule,
     ProductsModule,
     CartModule,
+    OrderModule,
     SellerCategoriesModule,
     ProductCategoriesModule,
   ],

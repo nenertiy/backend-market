@@ -11,7 +11,7 @@ export class CartRepository {
   async findCart(clientId: string) {
     return this.prisma.cart.findUnique({
       where: { clientId },
-      include: { cartProduct: true },
+      include: { cartProduct: { include: { product: true } } },
     });
   }
 
@@ -28,6 +28,7 @@ export class CartRepository {
     const cartProduct = cart.cartProduct.find(
       (item) => item.productId === dto.productId,
     );
+
     if (cartProduct) {
       return await this.prisma.cartProduct.update({
         where: {
