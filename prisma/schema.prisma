@@ -61,6 +61,7 @@ model Product {
   sellerId        String?
   cartProduct     CartProduct[]
   orderProduct    OrderProduct[]
+  review          Review[]
 }
 
 model ProductCategory {
@@ -68,6 +69,14 @@ model ProductCategory {
   name    String    @unique
   img     String
   product Product[]
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  description String
+  rating      Float
+  product     Product? @relation(fields: [productId], references: [id])
+  productId   String?
 }
 
 model Cart {
