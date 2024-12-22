@@ -10,6 +10,14 @@ export class ReviewsRepository {
     return this.prisma.review.create({ data });
   }
 
+  async getAllProductReviews(productId: string) {
+    return this.prisma.review.findMany({ where: { productId } });
+  }
+
+  async getAllReviewsOfClient(clientId: string) {
+    return this.prisma.review.findMany({ where: { clientId } });
+  }
+
   async getSellerReviews(sellerId: string) {
     return this.prisma.review.findMany({
       take: 5,

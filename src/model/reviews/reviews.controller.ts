@@ -13,9 +13,21 @@ export class ReviewsController {
   }
 
   @ApiOperation({ summary: 'Получить отзывы продавца' })
-  @Get(':id')
+  @Get('seller/:id')
   async getSellerReviews(@Param('id') id: string) {
     return this.reviewsService.getSellerReviews(id);
+  }
+
+  @ApiOperation({ summary: 'Получить отзывы клиента' })
+  @Get('client/:id')
+  async getAllReviewsOfClient(@Param('id') id: string) {
+    return this.reviewsService.getAllReviewsOfClient(id);
+  }
+
+  @ApiOperation({ summary: 'Получить отзывы продукта' })
+  @Get('product/:id')
+  async getAllProductReviews(@Param('id') id: string) {
+    return this.reviewsService.getAllProductReviews(id);
   }
 
   @Delete('id')

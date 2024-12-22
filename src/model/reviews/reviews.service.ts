@@ -10,11 +10,19 @@ export class ReviewsService {
     return this.reviewsRepository.createReview(dto);
   }
 
-  async deleteReview(id: string) {
-    return this.reviewsRepository.deleteReview(id);
-  }
-
   async getSellerReviews(id: string) {
     return this.reviewsRepository.getSellerReviews(id);
+  }
+
+  async getAllProductReviews(id: string) {
+    return this.reviewsRepository.getAllProductReviews(id);
+  }
+
+  async getAllReviewsOfClient(id: string) {
+    return this.reviewsRepository.getAllReviewsOfClient(id);
+  }
+
+  async deleteReview(id: string) {
+    return this.reviewsRepository.deleteReview(id);
   }
 }
