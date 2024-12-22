@@ -32,7 +32,7 @@ export class ProductsRepository {
   async findOneProduct(id: string) {
     return this.prisma.product.findUnique({
       where: { id },
-      include: { productCategory: true },
+      include: { productCategory: true, review: true },
     });
   }
 
