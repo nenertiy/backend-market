@@ -28,6 +28,11 @@ export class ProductsController {
     return this.productsService.getRandomProducts();
   }
 
+  @Get('popular')
+  async findPopularProducts() {
+    return this.productsService.findPopularProducts();
+  }
+
   @Get(':id')
   async findOneProduct(@Param('id') id: string) {
     return this.productsService.findOneProduct(id);

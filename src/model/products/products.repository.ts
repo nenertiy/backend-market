@@ -29,10 +29,14 @@ export class ProductsRepository {
     });
   }
 
+  async findPopularProducts() {
+    return this.prisma.product.findMany({ where: { isPopular: true } });
+  }
+
   async findOneProduct(id: string) {
     return this.prisma.product.findUnique({
       where: { id },
-      include: { productCategory: true },
+      include: { productCategory: true, review: true },
     });
   }
 
