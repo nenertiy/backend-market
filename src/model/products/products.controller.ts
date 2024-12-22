@@ -32,6 +32,11 @@ export class ProductsController {
   }
 
   @ApiOperation({ summary: 'Получить определенный продукт' })
+  @Get('popular')
+  async findPopularProducts() {
+    return this.productsService.findPopularProducts();
+  }
+
   @Get(':id')
   async findOneProduct(@Param('id') id: string) {
     return this.productsService.findOneProduct(id);
