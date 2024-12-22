@@ -14,7 +14,10 @@ export class SellersRepository {
   async findById(id: string) {
     return this.prisma.seller.findUnique({
       where: { id },
-      include: { sellerCategory: true, products: true },
+      include: {
+        sellerCategory: true,
+        products: { include: { review: true } },
+      },
     });
   }
 
