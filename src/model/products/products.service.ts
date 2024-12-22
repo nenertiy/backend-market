@@ -11,6 +11,10 @@ export class ProductsService {
     return this.productsRepository.findAllProducts();
   }
 
+  async findPopularProducts() {
+    return this.productsRepository.findPopularProducts();
+  }
+
   async findOneProduct(id: string) {
     return this.productsRepository.findOneProduct(id);
   }
