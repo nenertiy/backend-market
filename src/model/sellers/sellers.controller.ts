@@ -27,6 +27,7 @@ export class SellersController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Получить всех продавцов' })
   async findAllSeller() {
     return this.sellersService.findAllSeller();
   }

@@ -18,6 +18,7 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
+  @ApiOperation({ summary: 'Отправить отзыв' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('client')
   @Post()
@@ -43,6 +44,7 @@ export class ReviewsController {
     return this.reviewsService.getAllProductReviews(id);
   }
 
+  @ApiOperation({ summary: 'Удалить отзыв' })
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('client')
   @Delete('id')

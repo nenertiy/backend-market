@@ -14,6 +14,7 @@ import { RemoveFromCartDto } from './dto/removeFromCart.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('cart')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -22,16 +23,19 @@ export class CartController {
   constructor(private readonly cartService: CartService) {}
 
   @Post('add')
+  @ApiOperation({ summary: 'Добавить в корзину' })
   async addToCart(@Body() dto: AddToCartDto) {
     return this.cartService.addToCart({ ...dto, count: dto.count | 1 });
   }
 
   @Delete('remove')
+  @ApiOperation({ summary: 'Удалить из корзины' })
   async removeFromCart(@Body() dto: RemoveFromCartDto) {
     return this.cartService.removeFromCart(dto);
   }
 
   @Patch('decrease')
+  @ApiOperation({ summary: 'Уменьшить количетво товаров в корзине' })
   async decreaseCount(
     @Body() clientId: string,
     productId: string,
@@ -41,6 +45,7 @@ export class CartController {
   }
 
   @Get(':clientId')
+  @ApiOperation({ summary: 'Получить корзину пользователя' })
   async getCart(@Param('clientId') clientId: string) {
     return await this.cartService.findCart(clientId);
   }

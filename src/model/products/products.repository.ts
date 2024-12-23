@@ -32,6 +32,7 @@ export class ProductsRepository {
           { description: { contains: query, mode: 'insensitive' } },
         ],
       },
+      include: { productCategory: true },
     });
   }
 
