@@ -24,13 +24,15 @@ export class ProductsRepository {
 
   async findAllProducts() {
     return this.prisma.product.findMany({
-      where: { isDeleted: false },
+      where: { isDeleted: false, isAvailable: true },
       include: { productCategory: true },
     });
   }
 
   async findPopularProducts() {
-    return this.prisma.product.findMany({ where: { isPopular: true } });
+    return this.prisma.product.findMany({
+      where: { isPopular: true, isDeleted: false, isAvailable: true },
+    });
   }
 
   async findOneProduct(id: string) {
@@ -43,7 +45,7 @@ export class ProductsRepository {
   async getRandomProducts() {
     return this.prisma.product
       .findMany({
-        where: { isDeleted: false },
+        where: { isDeleted: false, isAvailable: true },
         include: { productCategory: true },
         orderBy: {
           id: 'asc',
