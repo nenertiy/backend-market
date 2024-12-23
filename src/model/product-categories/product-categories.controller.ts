@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ProductCategoriesService } from './product-categories.service';
 
 @Controller('product-categories')
@@ -8,7 +8,10 @@ export class ProductCategoriesController {
   ) {}
 
   @Get()
-  async findAllProductCategories() {
+  async findAllProductCategories(@Query('search') search: string) {
+    if (search) {
+      return this.productCategoriesService.searchProductCategories(search);
+    }
     return this.productCategoriesService.findAllProductCategories();
   }
 
