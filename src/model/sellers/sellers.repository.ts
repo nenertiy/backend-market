@@ -11,6 +11,10 @@ export class SellersRepository {
     return this.prisma.seller.create({ data });
   }
 
+  async findAllSeller() {
+    return this.prisma.seller.findMany();
+  }
+
   async findById(id: string) {
     return this.prisma.seller.findUnique({
       where: { id },
