@@ -7,8 +7,12 @@ import { Injectable, Param } from '@nestjs/common';
 export class ProductsService {
   constructor(private readonly productsRepository: ProductsRepository) {}
 
-  async findAllProducts() {
-    return this.productsRepository.findAllProducts();
+  async searchProducts(query: string, skip: number, take: number) {
+    return this.productsRepository.searchProducts(query, take, skip);
+  }
+
+  async findAllProducts(skip: number, take: number) {
+    return this.productsRepository.findAllProducts(take, skip);
   }
 
   async findPopularProducts() {
