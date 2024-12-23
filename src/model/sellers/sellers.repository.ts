@@ -12,7 +12,9 @@ export class SellersRepository {
   }
 
   async findAllSeller() {
-    return this.prisma.seller.findMany();
+    return this.prisma.seller.findMany({
+      include: { sellerCategory: true },
+    });
   }
 
   async findById(id: string) {
