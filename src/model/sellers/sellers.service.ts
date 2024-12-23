@@ -33,6 +33,10 @@ export class SellersService {
     return this.sellersRepository.updateSeller(id, updateData);
   }
 
+  async findAllSeller() {
+    return this.sellersRepository.findAllSeller();
+  }
+
   async findByEmail(email: string) {
     return this.sellersRepository.findByEmail(email);
   }

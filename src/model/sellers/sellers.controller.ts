@@ -25,4 +25,9 @@ export class SellersController {
   async findById(@Param('id') id: string) {
     return this.sellersService.findById(id);
   }
+
+  @Get()
+  async findAllSeller() {
+    return this.sellersService.findAllSeller();
+  }
 }
