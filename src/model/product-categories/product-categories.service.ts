@@ -11,6 +11,10 @@ export class ProductCategoriesService {
     return this.productCategoriesRepository.findAllProductCategories();
   }
 
+  async searchProductCategories(query: string) {
+    return this.productCategoriesRepository.searchProductCategories(query);
+  }
+
   async findOneProductCategories(id: string) {
     return this.productCategoriesRepository.findOneProductCategories(id);
   }
