@@ -22,8 +22,23 @@ export class ProductsRepository {
     });
   }
 
-  async findAllProducts() {
+  async searchProducts(query: string, take: number, skip: number) {
     return this.prisma.product.findMany({
+      take,
+      skip,
+      where: {
+        OR: [
+          { name: { contains: query, mode: 'insensitive' } },
+          { description: { contains: query, mode: 'insensitive' } },
+        ],
+      },
+    });
+  }
+
+  async findAllProducts(take: number, skip: number) {
+    return this.prisma.product.findMany({
+      take,
+      skip,
       where: { isDeleted: false, isAvailable: true },
       include: { productCategory: true },
     });

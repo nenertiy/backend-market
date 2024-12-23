@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
@@ -21,8 +22,18 @@ export class ProductsController {
 
   @ApiOperation({ summary: 'Получить все продукты' })
   @Get()
-  async findAllProducts() {
-    return this.productsService.findAllProducts();
+  async findAllProducts(
+    @Query('search') search?: string,
+    @Query('take') take?: number,
+    @Query('skip') skip?: number,
+  ) {
+    const safeTake = Math.min(Number(take) || 10, 100); // Максимум 100 записей
+    const safeSkip = Math.max(Number(skip) || 0, 0);
+
+    if (search) {
+      return this.productsService.searchProducts(search, safeSkip, safeTake);
+    }
+    return this.productsService.findAllProducts(safeSkip, safeTake);
   }
 
   @ApiOperation({ summary: 'Получить продукты в рандомном порядке' })
