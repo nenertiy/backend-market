@@ -18,7 +18,7 @@ model Seller {
   shopName       String           @unique
   surname        String
   name           String
-  patronyc       String?
+  patronymic     String?
   INN            String           @unique
   phone          String           @unique
   email          String           @unique

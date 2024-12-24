@@ -17,7 +17,7 @@ export class CreateSellerDto {
   @ApiProperty({ example: 'Sha' })
   @IsString()
   @IsOptional()
-  patronyc?: string;
+  patronymic?: string;
 
   @ApiProperty({ example: '+79091990201', required: true })
   @IsString()

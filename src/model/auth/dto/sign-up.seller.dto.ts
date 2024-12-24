@@ -33,7 +33,7 @@ export class SignUpSellerDto {
   })
   @IsString()
   @IsOptional()
-  patronyc?: string;
+  patronymic?: string;
 
   @ApiProperty({
     example: '+79091990201',
