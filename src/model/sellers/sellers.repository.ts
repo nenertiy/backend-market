@@ -18,13 +18,17 @@ export class SellersRepository {
   }
 
   async findById(id: string) {
-    return this.prisma.seller.findUnique({
+    const seller = this.prisma.seller.findUnique({
       where: { id },
       include: {
         sellerCategory: true,
         products: { include: { review: true } },
       },
     });
+
+    const rating = await this.calculateSellerRating(id);
+
+    return { ...seller, rating };
   }
 
   async findByEmail(email: string) {
@@ -37,5 +41,20 @@ export class SellersRepository {
       where: { id },
       include: { sellerCategory: true },
     });
+  }
+
+  private async calculateSellerRating(sellerId: string) {
+    const result = await this.prisma.review.aggregate({
+      _avg: {
+        rating: true,
+      },
+      where: {
+        product: {
+          sellerId,
+        },
+      },
+    });
+
+    return result._avg.rating || 0;
   }
 }

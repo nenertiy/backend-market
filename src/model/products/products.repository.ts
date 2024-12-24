@@ -52,10 +52,14 @@ export class ProductsRepository {
   }
 
   async findOneProduct(id: string) {
-    return this.prisma.product.findUnique({
+    const product = await this.prisma.product.findUnique({
       where: { id },
       include: { productCategory: true, review: true },
     });
+
+    const rating = await this.calculateProductRating(id);
+
+    return { ...product, rating };
   }
 
   async getRandomProducts() {
@@ -70,5 +74,20 @@ export class ProductsRepository {
       .then((products) => {
         return products.sort(() => Math.random() - 0.5);
       });
+  }
+
+  private async calculateProductRating(productId: string) {
+    const result = await this.prisma.review.aggregate({
+      _avg: {
+        rating: true,
+      },
+      where: {
+        product: {
+          id: productId,
+        },
+      },
+    });
+
+    return result._avg.rating || 0;
   }
 }

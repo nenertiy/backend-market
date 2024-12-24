@@ -31,7 +31,7 @@ export class UpdateSellerDto {
   @ApiPropertyOptional({ example: 'Sha', description: 'Отчество продавца' })
   @IsString()
   @IsOptional()
-  patronyc?: string;
+  patronymic?: string;
 
   @ApiPropertyOptional({
     example: '+79091990201',
