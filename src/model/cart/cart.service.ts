@@ -19,7 +19,7 @@ export class CartService {
     return this.cartRepository.removeFromCart(dto);
   }
 
-  async decreaseCount(cliendId: string, productId: string, count: number = 1) {
-    return this.cartRepository.decreaseCount(cliendId, productId, count);
+  async decreaseCount(dto: RemoveFromCartDto) {
+    return this.cartRepository.decreaseCount(dto);
   }
 }

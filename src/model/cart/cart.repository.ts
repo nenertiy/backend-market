@@ -11,7 +11,13 @@ export class CartRepository {
   async findCart(clientId: string) {
     return this.prisma.cart.findUnique({
       where: { clientId },
-      include: { cartProduct: { include: { product: true } } },
+      include: {
+        cartProduct: {
+          include: {
+            product: true,
+          },
+        },
+      },
     });
   }
 
@@ -60,19 +66,6 @@ export class CartRepository {
     if (!cartProduct) {
       throw new NotFoundException('Product not found in cart');
     }
-    if (cartProduct.count > 1) {
-      return await this.prisma.cartProduct.update({
-        where: {
-          cartId_productId: {
-            cartId: cartProduct.cartId,
-            productId: cartProduct.productId,
-          },
-        },
-        data: {
-          count: cartProduct.count - 1,
-        },
-      });
-    }
     return await this.prisma.cartProduct.delete({
       where: {
         cartId_productId: {
@@ -83,18 +76,18 @@ export class CartRepository {
     });
   }
 
-  async decreaseCount(clientId: string, productId: string, count: number = 1) {
-    const cart = await this.findCart(clientId);
+  async decreaseCount(dto: RemoveFromCartDto) {
+    const cart = await this.findCart(dto.clientId);
     if (!cart) {
       throw new NotFoundException();
     }
     const cartProduct = cart.cartProduct.find(
-      (item) => item.productId === productId,
+      (item) => item.productId === dto.productId,
     );
     if (!cartProduct) {
       throw new NotFoundException('Product not found in cart');
     }
-    if (cartProduct.count > count) {
+    if (cartProduct.count > 1) {
       return await this.prisma.cartProduct.update({
         where: {
           cartId_productId: {
@@ -103,7 +96,7 @@ export class CartRepository {
           },
         },
         data: {
-          count: cartProduct.count - count,
+          count: cartProduct.count - 1,
         },
       });
     }
