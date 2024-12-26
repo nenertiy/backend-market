@@ -8,7 +8,20 @@ export class ProductsRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async createProduct(data: CreateProductDto) {
-    return this.prisma.product.create({ data });
+    return this.prisma.product.create({
+      data: {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        img: data.img,
+        seller: {
+          connect: { id: data.sellerId },
+        },
+        productCategory: {
+          connect: data.productCategoryId.map((id) => ({ id })),
+        },
+      },
+    });
   }
 
   async updateProduct(id: string, data: UpdateProductDto) {
