@@ -18,7 +18,7 @@ import { SellersModule } from '../sellers/sellers.module';
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
         secret: config.get('ACCESS_TOKEN'),
-        signOptions: { expiresIn: '1h' },
+        signOptions: { expiresIn: '24h' },
       }),
     }),
   ],

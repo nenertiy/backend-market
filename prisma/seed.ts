@@ -1,219 +1,73 @@
-// import { PrismaClient } from '@prisma/client';
-
-// const prisma = new PrismaClient();
-
-// async function main() {
-//   const electronicsCategory = await prisma.productCategory.upsert({
-//     where: { name: 'Electronics' },
-//     update: {},
-//     create: {
-//       name: 'Electronics',
-//       img: 'https://example.com/images/electronics.jpg',
-//     },
-//   });
-
-//   const fashionCategory = await prisma.productCategory.upsert({
-//     where: { name: 'Fashion' },
-//     update: {},
-//     create: {
-//       name: 'Fashion',
-//       img: 'https://example.com/images/fashion.jpg',
-//     },
-//   });
-
-//   const homeAppliancesCategory = await prisma.productCategory.upsert({
-//     where: { name: 'Home Appliances' },
-//     update: {},
-//     create: {
-//       name: 'Home Appliances',
-//       img: 'https://example.com/images/home_appliances.jpg',
-//     },
-//   });
-
-//   const booksCategory = await prisma.productCategory.upsert({
-//     where: { name: 'Books' },
-//     update: {},
-//     create: {
-//       name: 'Books',
-//       img: 'https://example.com/images/books.jpg',
-//     },
-//   });
-
-//   const toysCategory = await prisma.productCategory.upsert({
-//     where: { name: 'Toys' },
-//     update: {},
-//     create: {
-//       name: 'Toys',
-//       img: 'https://example.com/images/toys.jpg',
-//     },
-//   });
-
-//   console.log('Product categories created or updated.');
-
-//   const seller = await prisma.seller.create({
-//     data: {
-//       shopName: 'Tech Store',
-//       surname: 'Smith',
-//       name: 'John',
-//       phone: '+1234567890',
-//       email: 'john.smith@example.com',
-//       password: 'password123',
-//       INN: '123456789900',
-//     },
-//   });
-
-//   console.log('Seller created.');
-
-//   const laptop = await prisma.product.create({
-//     data: {
-//       name: 'Laptop',
-//       description: 'A powerful laptop for work and play.',
-//       price: 1200.99,
-//       img: 'https://example.com/images/laptop.jpg',
-//       sellerId: seller.id,
-//       isAvailable: true,
-//       isPopular: true,
-//     },
-//   });
-
-//   const smartphone = await prisma.product.create({
-//     data: {
-//       name: 'Smartphone',
-//       description: 'The latest smartphone with cutting-edge features.',
-//       price: 799.99,
-//       img: 'https://example.com/images/smartphone.jpg',
-//       sellerId: seller.id,
-//       isAvailable: true,
-//       isPopular: false,
-//     },
-//   });
-
-//   const sneakers = await prisma.product.create({
-//     data: {
-//       name: 'Sneakers',
-//       description: 'Stylish and comfortable sneakers.',
-//       price: 49.99,
-//       img: 'https://example.com/images/sneakers.jpg',
-//       sellerId: seller.id,
-//       isAvailable: true,
-//       isPopular: false,
-//     },
-//   });
-
-//   const blender = await prisma.product.create({
-//     data: {
-//       name: 'Cooking Blender',
-//       description: 'A powerful blender for your kitchen.',
-//       price: 99.99,
-//       img: 'https://example.com/images/blender.jpg',
-//       sellerId: seller.id,
-//       isAvailable: true,
-//       isPopular: true,
-//     },
-//   });
-
-//   const toyCar = await prisma.product.create({
-//     data: {
-//       name: 'Toy Car',
-//       description: 'A fun toy car for kids.',
-//       price: 15.99,
-//       img: 'https://example.com/images/toy_car.jpg',
-//       sellerId: seller.id,
-//       isAvailable: true,
-//       isPopular: false,
-//     },
-//   });
-
-//   console.log('Products created.');
-
-//   await prisma.product.update({
-//     where: { id: laptop.id },
-//     data: {
-//       productCategory: {
-//         connect: [{ id: electronicsCategory.id }],
-//       },
-//     },
-//   });
-
-//   await prisma.product.update({
-//     where: { id: smartphone.id },
-//     data: {
-//       productCategory: {
-//         connect: [{ id: electronicsCategory.id }],
-//       },
-//     },
-//   });
-
-//   await prisma.product.update({
-//     where: { id: sneakers.id },
-//     data: {
-//       productCategory: {
-//         connect: [{ id: fashionCategory.id }],
-//       },
-//     },
-//   });
-
-//   await prisma.product.update({
-//     where: { id: blender.id },
-//     data: {
-//       productCategory: {
-//         connect: [{ id: homeAppliancesCategory.id }],
-//       },
-//     },
-//   });
-
-//   await prisma.product.update({
-//     where: { id: toyCar.id },
-//     data: {
-//       productCategory: {
-//         connect: [{ id: toysCategory.id }],
-//       },
-//     },
-//   });
-
-//   console.log('Products connected to categories.');
-// }
-
-// main()
-//   .catch((e) => {
-//     console.error(e);
-//   })
-//   .finally(async () => {
-//     await prisma.$disconnect();
-//   });
-
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  const sellerCategories = [
+  const categories = [
     {
-      name: 'Electronics',
-      img: 'https://example.com/images/electronics.jpg',
+      name: 'Новогодние товары',
+      img: 'https://drive.google.com/file/d/1tS_OA4dLx4tjbvNqzOVauZaYbUjfI7DI/view?usp=drive_link',
     },
     {
-      name: 'Fashion',
-      img: 'https://example.com/images/fashion.jpg',
+      name: 'Товары для дома',
+      img: 'https://drive.google.com/file/d/1A1l6D9KsE018iGW1mVrtCj8hPdEKsxAd/view?usp=drive_link',
     },
     {
-      name: 'Home & Kitchen',
-      img: 'https://example.com/images/home-kitchen.jpg',
+      name: 'Детские товары',
+      img: 'https://drive.google.com/file/d/17f7obTfqbTX98II5JkbsqgscaegSWRgt/view?usp=drive_link',
     },
     {
-      name: 'Sports & Outdoors',
-      img: 'https://example.com/images/sports-outdoors.jpg',
+      name: 'Красота и уход',
+      img: 'https://drive.google.com/file/d/1oqR1HhR6czUmXnxfxR5Q2UU0oinFpTLf/view?usp=drive_link',
     },
     {
-      name: 'Books',
-      img: 'https://example.com/images/books.jpg',
+      name: 'Электроника',
+      img: 'https://drive.google.com/file/d/1GFLh5hLfMU5DL_obJWMLz2PEwvTuKFVt/view?usp=drive_link',
+    },
+    {
+      name: 'Бытовая техника',
+      img: 'https://drive.google.com/file/d/1-tY07sd1iF1XOLxFaWyHxdl7NC6eXKBh/view?usp=drive_link',
+    },
+    {
+      name: 'Книги, хобби, канцелярия',
+      img: 'https://drive.google.com/file/d/17DK5M3p4zW7OjR2apU6XFtT1dtczdF0b/view?usp=drive_link',
+    },
+    {
+      name: 'Одежда, обувь и аксессуары',
+      img: 'https://drive.google.com/file/d/1497u-D0mDsL2w4b7KrJp0JWiZdHZ2Pm0/view?usp=drive_link',
+    },
+    {
+      name: 'Продукты питания',
+      img: 'https://drive.google.com/file/d/1MaDngy5fnz467mxzt9ivpw5IlAhKReNn/view?usp=drive_link',
+    },
+    {
+      name: 'Здоровье',
+      img: 'https://drive.google.com/uc?id=1I6uQ-Zw9SVzwKfK5hNYZMaO7OhsXawFZ',
+    },
+    {
+      name: 'Автотовары',
+      img: 'https://drive.google.com/file/d/1ewv5JpP_KhDEzYO0AqXdh-jtx9_eBRLj/view?usp=drive_link',
+    },
+    {
+      name: 'Зоотовары',
+      img: 'https://drive.google.com/file/d/1ONiv9rHosWVNp-8LNCit1af3zqUEJZ3R/view?usp=drive_link',
+    },
+    {
+      name: 'Мебель',
+      img: 'https://drive.google.com/file/d/1iXaBYGOuIuFsrOh2LwklKh6arc3ov7M9/view?usp=drive_link',
+    },
+    {
+      name: 'Строительство и ремонт',
+      img: 'https://drive.google.com/file/d/1iJS0H42lYkxZ2omNN72Ofq8u0rYNxl5B/view?usp=drive_link',
     },
   ];
 
-  for (const category of sellerCategories) {
-    await prisma.sellerCategory.upsert({
+  console.log('Seeding Product Categories...');
+
+  for (const category of categories) {
+    await prisma.productCategory.upsert({
       where: { name: category.name },
-      update: {}, // Skip if exists
+      update: {},
       create: {
         name: category.name,
         img: category.img,
@@ -221,7 +75,69 @@ async function main() {
     });
   }
 
-  console.log('Seller categories seeded successfully.');
+  console.log('Product Categories seeded successfully!');
+
+  const sellerCategories = [
+    {
+      name: 'Медицина и фармацевтика',
+      img: 'https://drive.google.com/file/d/1I6uQ-Zw9SVzwKfK5hNYZMaO7OhsXawFZ/view?usp=drive_link',
+    },
+    {
+      name: 'Продукты питания',
+      img: 'https://drive.google.com/file/d/1MaDngy5fnz467mxzt9ivpw5IlAhKReNn/view?usp=drive_link',
+    },
+    {
+      name: 'Парфюмерия и косметика',
+      img: 'https://drive.google.com/file/d/1oqR1HhR6czUmXnxfxR5Q2UU0oinFpTLf/view?usp=drive_link',
+    },
+    {
+      name: 'Бытовая химия',
+      img: 'https://drive.google.com/file/d/1tzYZX1mvk8ci4wcqYdX3dfP7H0pnQGm4/view?usp=drive_link',
+    },
+    {
+      name: 'Средства и предметы гигиены',
+      img: 'https://drive.google.com/file/d/13G6CFAtugwjTAdy8SQMP6bpfi_izwpOk/view?usp=drive_link',
+    },
+    {
+      name: 'Развлечения',
+      img: 'https://drive.google.com/file/d/1ewv5JpP_KhDEzYO0AqXdh-jtx9_eBRLj/view?usp=drive_link',
+    },
+    {
+      name: 'Бытовая техника',
+      img: 'https://drive.google.com/file/d/1-tY07sd1iF1XOLxFaWyHxdl7NC6eXKBh/view?usp=drive_link',
+    },
+    {
+      name: 'Мобильные устройства связи',
+      img: 'https://drive.google.com/file/d/1GFLh5hLfMU5DL_obJWMLz2PEwvTuKFVt/view?usp=drive_link',
+    },
+    {
+      name: 'Одежда, обувь и аксессуары',
+      img: 'https://drive.google.com/file/d/1497u-D0mDsL2w4b7KrJp0JWiZdHZ2Pm0/view?usp=drive_link',
+    },
+    {
+      name: 'Офис и бизнес',
+      img: 'https://drive.google.com/file/d/16_DgLaj7QYL2T1qMhxRydk8Rjfc-zJ-i/view?usp=drive_link',
+    },
+    {
+      name: 'Автотовары',
+      img: 'https://drive.google.com/file/d/1ewv5JpP_KhDEzYO0AqXdh-jtx9_eBRLj/view?usp=drive_link',
+    },
+  ];
+
+  console.log('Seeding Seller Categories...');
+
+  for (const category of sellerCategories) {
+    await prisma.sellerCategory.upsert({
+      where: { name: category.name },
+      update: {},
+      create: {
+        name: category.name,
+        img: category.img,
+      },
+    });
+  }
+
+  console.log('Seller Categories seeded successfully!');
 }
 
 main()

@@ -34,14 +34,10 @@ export class CartController {
     return this.cartService.removeFromCart(dto);
   }
 
-  @Patch('decrease')
+  @Delete('decrease')
   @ApiOperation({ summary: 'Уменьшить количетво товаров в корзине' })
-  async decreaseCount(
-    @Body() clientId: string,
-    productId: string,
-    count: number,
-  ) {
-    return this.cartService.decreaseCount(clientId, productId, count);
+  async decreaseCount(@Body() dto: RemoveFromCartDto) {
+    return this.cartService.decreaseCount(dto);
   }
 
   @Get(':clientId')

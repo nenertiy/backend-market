@@ -54,7 +54,7 @@ export class ProductsRepository {
   async findOneProduct(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
-      include: { productCategory: true, review: true },
+      include: { productCategory: true, review: { include: { client: true } } },
     });
 
     const rating = await this.calculateProductRating(id);
