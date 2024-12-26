@@ -38,6 +38,10 @@ export class OrderRepository {
   }
 
   async findAllOrders(clientId: string) {
-    return this.prisma.order.findMany({ where: { clientId } });
+    return this.prisma.order.findMany({
+      orderBy: { date: 'desc' },
+      where: { clientId },
+      include: { orderProduct: { include: { product: true } } },
+    });
   }
 }
