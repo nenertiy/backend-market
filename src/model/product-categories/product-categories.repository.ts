@@ -18,7 +18,14 @@ export class ProductCategoriesRepository {
   async findOneProductCategories(id: string) {
     return this.prisma.productCategory.findUnique({
       where: { id },
-      include: { product: true },
+      include: {
+        product: {
+          where: {
+            isDeleted: false,
+            isAvailable: true,
+          },
+        },
+      },
     });
   }
 }
