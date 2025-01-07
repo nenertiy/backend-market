@@ -21,8 +21,4 @@ export class CreateProductDto {
   @ApiProperty({ example: ['23123p-123xq-112'], required: true })
   @IsString()
   productCategoryId: string[];
-
-  @ApiProperty({ example: '12312312-123123-123', required: true })
-  @IsString()
-  sellerId: string;
 }

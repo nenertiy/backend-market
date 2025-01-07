@@ -15,12 +15,12 @@ export class CreateReviewDto {
   @IsString()
   productId: string;
 
-  @ApiProperty({
-    example: 'd0d28ef7-2ee7-4bf6-b6d4-0ef2196d8f28',
-    required: true,
-  })
-  @IsString()
-  clientId: string;
+  // @ApiProperty({
+  //   example: 'd0d28ef7-2ee7-4bf6-b6d4-0ef2196d8f28',
+  //   required: true,
+  // })
+  // @IsString()
+  // clientId: string;
 
   @ApiProperty({
     example: '5',

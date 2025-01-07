@@ -7,7 +7,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 export class ProductsRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createProduct(data: CreateProductDto) {
+  async createProduct(data: CreateProductDto, sellerId: string) {
     return this.prisma.product.create({
       data: {
         name: data.name,
@@ -15,7 +15,7 @@ export class ProductsRepository {
         price: data.price,
         img: data.img,
         seller: {
-          connect: { id: data.sellerId },
+          connect: { id: sellerId },
         },
         productCategory: {
           connect: data.productCategoryId.map((id) => ({ id })),

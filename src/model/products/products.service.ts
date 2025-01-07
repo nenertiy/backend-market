@@ -1,7 +1,7 @@
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ProductsRepository } from './products.repository';
-import { Injectable, Param } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ProductsService {
@@ -23,8 +23,8 @@ export class ProductsService {
     return this.productsRepository.findOneProduct(id);
   }
 
-  async createProduct(dto: CreateProductDto) {
-    return this.productsRepository.createProduct(dto);
+  async createProduct(dto: CreateProductDto, id: string) {
+    return this.productsRepository.createProduct(dto, id);
   }
 
   async updateProduct(id: string, dto: UpdateProductDto) {

@@ -6,8 +6,8 @@ import { CreateReviewDto } from './dto/create-review.dto';
 export class ReviewsRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createReview(data: CreateReviewDto) {
-    return this.prisma.review.create({ data });
+  async createReview(clientId: string, data: CreateReviewDto) {
+    return this.prisma.review.create({ data: { ...data, clientId } });
   }
 
   async getAllProductReviews(productId: string) {

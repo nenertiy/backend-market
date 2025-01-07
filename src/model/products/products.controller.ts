@@ -15,6 +15,8 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { DecodeSeller } from 'src/common/decorators/decode';
+import { Seller } from 'src/common/types/types';
 
 @Controller('products')
 export class ProductsController {
@@ -27,7 +29,7 @@ export class ProductsController {
     @Query('take') take?: number,
     @Query('skip') skip?: number,
   ) {
-    const safeTake = Math.min(Number(take) || 10, 100); // Максимум 100 записей
+    const safeTake = Math.min(Number(take) || 10, 100);
     const safeSkip = Math.max(Number(skip) || 0, 0);
 
     if (search) {
@@ -66,8 +68,11 @@ export class ProductsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('seller')
   @Post()
-  async createProduct(@Body() dto: CreateProductDto) {
-    return this.productsService.createProduct(dto);
+  async createProduct(
+    @Body() dto: CreateProductDto,
+    @DecodeSeller() seller: Seller,
+  ) {
+    return this.productsService.createProduct(dto, seller.id);
   }
 
   @ApiOperation({ summary: 'Обновление продуктов' })
