@@ -13,6 +13,8 @@ import { ApiOperation } from '@nestjs/swagger';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { DecodeClient } from 'src/common/decorators/decode';
+import { Client } from 'src/common/types/types';
 
 @Controller('reviews')
 export class ReviewsController {
@@ -22,8 +24,11 @@ export class ReviewsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('client')
   @Post()
-  async createReview(@Body() dto: CreateReviewDto) {
-    return this.reviewsService.createReview(dto);
+  async createReview(
+    @Body() dto: CreateReviewDto,
+    @DecodeClient() client: Client,
+  ) {
+    return this.reviewsService.createReview(client.id, dto);
   }
 
   @ApiOperation({ summary: 'Получить отзывы продавца' })

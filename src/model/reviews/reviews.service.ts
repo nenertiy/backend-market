@@ -6,8 +6,8 @@ import { CreateReviewDto } from './dto/create-review.dto';
 export class ReviewsService {
   constructor(private readonly reviewsRepository: ReviewsRepository) {}
 
-  async createReview(dto: CreateReviewDto) {
-    return this.reviewsRepository.createReview(dto);
+  async createReview(id: string, dto: CreateReviewDto) {
+    return this.reviewsRepository.createReview(id, dto);
   }
 
   async getSellerReviews(id: string) {

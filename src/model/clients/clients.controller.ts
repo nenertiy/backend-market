@@ -20,11 +20,19 @@ export class ClientsController {
     return client;
   }
 
-  @Patch('id')
+  // @Patch('id')
   // @UseGuards(JwtAuthGuard, RolesGuard)
   // @Roles('client')
+  // @ApiOperation({ summary: 'Обновить' })
+  // async updateClient(@Param('id') id: string, dto: UpdateClientDto) {
+  //   return this.clientsService.updateClient(id, dto);
+  // }
+
+  @Patch()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('client')
   @ApiOperation({ summary: 'Обновить' })
-  async updateClient(@Param('id') id: string, dto: UpdateClientDto) {
-    return this.clientsService.updateClient(id, dto);
+  async updateClient(@DecodeClient() client: Client, dto: UpdateClientDto) {
+    return this.clientsService.updateClient(client.id, dto);
   }
 }

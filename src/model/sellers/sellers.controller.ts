@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { SellersService } from './sellers.service';
 import { DecodeSeller } from 'src/common/decorators/decode';
 import { Seller } from 'src/common/types/types';
@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { UpdateSellerDto } from './dto/update-seller.dto';
 
 @Controller('sellers')
 export class SellersController {
@@ -30,5 +31,13 @@ export class SellersController {
   @ApiOperation({ summary: 'Получить всех продавцов' })
   async findAllSeller() {
     return this.sellersService.findAllSeller();
+  }
+
+  @Patch()
+  @ApiOperation({ summary: 'Обновить' })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('seller')
+  async updateSeller(@DecodeSeller() seller: Seller, dto: UpdateSellerDto) {
+    return this.sellersService.updateSeller(seller.id, dto);
   }
 }
