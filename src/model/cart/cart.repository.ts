@@ -22,14 +22,10 @@ export class CartRepository {
     });
   }
 
-  async addToCart(dto: AddToCartDto) {
-    const cart = await this.findCart(dto.clientId);
+  async addToCart(dto: AddToCartDto, clientId: string) {
+    const cart = await this.findCart(clientId);
     if (!cart) {
-      const newCart = await this.createCart(
-        dto.clientId,
-        dto.productId,
-        dto.count,
-      );
+      const newCart = await this.createCart(clientId, dto.productId, dto.count);
       return newCart;
     }
     const cartProduct = cart.cartProduct.find(
@@ -56,8 +52,8 @@ export class CartRepository {
     });
   }
 
-  async removeFromCart(dto: RemoveFromCartDto) {
-    const cart = await this.findCart(dto.clientId);
+  async removeFromCart(dto: RemoveFromCartDto, clientId: string) {
+    const cart = await this.findCart(clientId);
     if (!cart) {
       throw new NotFoundException();
     }
@@ -77,8 +73,8 @@ export class CartRepository {
     });
   }
 
-  async decreaseCount(dto: RemoveFromCartDto) {
-    const cart = await this.findCart(dto.clientId);
+  async decreaseCount(dto: RemoveFromCartDto, clientId: string) {
+    const cart = await this.findCart(clientId);
     if (!cart) {
       throw new NotFoundException();
     }
