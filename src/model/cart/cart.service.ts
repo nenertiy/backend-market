@@ -11,15 +11,15 @@ export class CartService {
     return this.cartRepository.findCart(id);
   }
 
-  async addToCart(dto: AddToCartDto) {
-    return this.cartRepository.addToCart(dto);
+  async addToCart(dto: AddToCartDto, id: string) {
+    return this.cartRepository.addToCart(dto, id);
   }
 
-  async removeFromCart(dto: RemoveFromCartDto) {
-    return this.cartRepository.removeFromCart(dto);
+  async removeFromCart(dto: RemoveFromCartDto, id: string) {
+    return this.cartRepository.removeFromCart(dto, id);
   }
 
-  async decreaseCount(dto: RemoveFromCartDto) {
-    return this.cartRepository.decreaseCount(dto);
+  async decreaseCount(dto: RemoveFromCartDto, id: string) {
+    return this.cartRepository.decreaseCount(dto, id);
   }
 }
