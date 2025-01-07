@@ -5,7 +5,7 @@ import { DecodeClient } from 'src/common/decorators/decode';
 import { Client } from 'src/common/types/types';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiOperation } from '@nestjs/swagger';
 import { UpdateClientDto } from './dto/update-client.dto';
 
 @Controller('clients')
