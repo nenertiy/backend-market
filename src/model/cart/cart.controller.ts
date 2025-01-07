@@ -53,9 +53,9 @@ export class CartController {
     return this.cartService.decreaseCount(dto, client.id);
   }
 
-  @Get(':clientId')
+  @Get()
   @ApiOperation({ summary: 'Получить корзину пользователя' })
-  async getCart(@Param('clientId') clientId: string) {
-    return await this.cartService.findCart(clientId);
+  async getCart(@DecodeClient() client: Client) {
+    return await this.cartService.findCart(client.id);
   }
 }
