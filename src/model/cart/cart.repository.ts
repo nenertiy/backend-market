@@ -13,6 +13,7 @@ export class CartRepository {
       where: { clientId },
       include: {
         cartProduct: {
+          orderBy: { product: { name: 'asc' } },
           include: {
             product: true,
           },
