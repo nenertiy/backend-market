@@ -18,13 +18,20 @@ export class SellersRepository {
   }
 
   async findById(id: string) {
-    const seller = this.prisma.seller.findUnique({
+    const seller = await this.prisma.seller.findUnique({
       where: { id },
       include: {
         sellerCategory: true,
-        products: { include: { review: true } },
+        products: {
+          where: { isDeleted: false },
+          include: { review: true },
+        },
       },
     });
+
+    if (!seller) {
+      throw new Error('Продавец не найден');
+    }
 
     const rating = await this.calculateSellerRating(id);
 
