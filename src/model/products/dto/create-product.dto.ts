@@ -18,7 +18,7 @@ export class CreateProductDto {
   @IsString()
   img: string;
 
-  @ApiProperty({ example: ['23123p-123xq-112'], required: true })
+  @ApiProperty({ example: '23123p-123xq-112', required: true })
   @IsString()
-  productCategoryId: string[];
+  productCategoryId: string;
 }
