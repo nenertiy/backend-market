@@ -48,21 +48,22 @@ model Client {
 }
 
 model Product {
-  id              String            @id @default(uuid())
-  name            String
-  description     String
-  price           Float
-  img             String
-  isAvailable     Boolean           @default(true)
-  isPopular       Boolean           @default(false)
-  isDeleted       Boolean           @default(false)
-  createdAt       DateTime          @default(now())
-  productCategory ProductCategory[]
-  seller          Seller?           @relation(fields: [sellerId], references: [id])
-  sellerId        String?
-  cartProduct     CartProduct[]
-  orderProduct    OrderProduct[]
-  review          Review[]
+  id                String          @id @default(uuid())
+  name              String
+  description       String
+  price             Float
+  img               String
+  isAvailable       Boolean         @default(true)
+  isPopular         Boolean         @default(false)
+  isDeleted         Boolean         @default(false)
+  createdAt         DateTime        @default(now())
+  productCategory   ProductCategory @relation(fields: [productCategoryId], references: [id])
+  productCategoryId String
+  seller            Seller?         @relation(fields: [sellerId], references: [id])
+  sellerId          String?
+  cartProduct       CartProduct[]
+  orderProduct      OrderProduct[]
+  review            Review[]
 }
 
 model ProductCategory {

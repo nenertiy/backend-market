@@ -14,11 +14,9 @@ export class ProductsRepository {
         description: data.description,
         price: data.price,
         img: data.img,
+        productCategory: { connect: { id: data.productCategoryId } },
         seller: {
           connect: { id: sellerId },
-        },
-        productCategory: {
-          connect: data.productCategoryId.map((id) => ({ id })),
         },
       },
     });

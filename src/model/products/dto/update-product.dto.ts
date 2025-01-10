@@ -22,8 +22,8 @@ export class UpdateProductDto {
   @IsOptional()
   img?: string;
 
-  @ApiProperty({ example: ['23123p-123xq-112'] })
+  @ApiProperty({ example: '23123p-123xq-112' })
   @IsString()
   @IsOptional()
-  productCategoryId?: string[];
+  productCategoryId?: string;
 }
