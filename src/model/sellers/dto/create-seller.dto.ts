@@ -32,7 +32,7 @@ export class CreateSellerDto {
   password: string;
 
   @ApiProperty({ example: '123456789900', required: true })
-  @Length(12)
+  // @Length(12)
   @IsString()
   INN: string;
 
