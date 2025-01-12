@@ -8,8 +8,22 @@ import { RemoveFromCartDto } from './dto/removeFromCart.dto';
 export class CartRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  // async findCart(clientId: string) {
+  //   return this.prisma.cart.findUnique({
+  //     where: { clientId },
+  //     include: {
+  //       cartProduct: {
+  //         orderBy: { product: { name: 'asc' } },
+  //         include: {
+  //           product: true,
+  //         },
+  //       },
+  //     },
+  //   });
+  // }
+
   async findCart(clientId: string) {
-    return this.prisma.cart.findUnique({
+    const cart = await this.prisma.cart.findUnique({
       where: { clientId },
       include: {
         cartProduct: {
@@ -20,6 +34,26 @@ export class CartRepository {
         },
       },
     });
+
+    const totalCount = cart.cartProduct.reduce((count, cartProduct) => {
+      if (!cartProduct.product.isDeleted) {
+        count += cartProduct.count;
+      }
+      return count;
+    }, 0);
+
+    const totalPrice = cart.cartProduct.reduce((price, cartProduct) => {
+      if (!cartProduct.product.isDeleted) {
+        price += cartProduct.product.price * cartProduct.count;
+      }
+      return price;
+    }, 0);
+
+    return {
+      ...cart,
+      totalCount,
+      totalPrice,
+    };
   }
 
   async addToCart(dto: AddToCartDto, clientId: string) {

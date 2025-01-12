@@ -15,17 +15,27 @@ export class OrderRepository {
     if (!cart || cart.cartProduct.length === 0) {
       throw new Error();
     }
-    const orderSum = cart.cartProduct.reduce(
-      (sum, item) => sum + item.count * item.product.price,
-      0,
+
+    const validCartProducts = cart.cartProduct.filter(
+      (cartProduct) => !cartProduct.product.isDeleted,
     );
+
+    if (validCartProducts.length === 0) {
+      throw new Error('Нет доступных товаров для создания заказа.');
+    }
+
+    const orderSum = validCartProducts.reduce((price, cartProduct) => {
+      price += cartProduct.product.price * cartProduct.count;
+      return price;
+    }, 0);
+
     const order = await this.prisma.order.create({
       data: {
         date: new Date(),
         sum: orderSum,
         clientId: clientId,
         orderProduct: {
-          create: cart.cartProduct.map((item) => ({
+          create: validCartProducts.map((item) => ({
             productId: item.productId,
             count: item.count,
           })),
