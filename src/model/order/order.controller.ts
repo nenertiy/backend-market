@@ -13,23 +13,11 @@ import { Client } from 'src/common/types/types';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  // @Get(':id')
-  // @ApiOperation({ summary: 'Получить все заказы пользователя' })
-  // async findAllOrders(@Param('id') id: string) {
-  //   return this.orderService.findAllOrders(id);
-  // }
-
   @Get()
   @ApiOperation({ summary: 'Получить все заказы пользователя' })
   async findAllOrders(@DecodeClient() client: Client) {
     return this.orderService.findAllOrders(client.id);
   }
-
-  // @Post(':id')
-  // @ApiOperation({ summary: 'Создать заказ из корзины' })
-  // async createOrderFromCart(@Param('id') id: string) {
-  //   return this.orderService.createOrderFromCart(id);
-  // }
 
   @Post()
   @ApiOperation({ summary: 'Создать заказ из корзины' })
