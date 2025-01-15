@@ -34,7 +34,7 @@ export class ProductsRepository {
   }
 
   async searchProducts(query: string, take: number, skip: number) {
-    return this.prisma.product.findMany({
+    const products = await this.prisma.product.findMany({
       take,
       skip,
       where: {
@@ -45,15 +45,33 @@ export class ProductsRepository {
       },
       include: { productCategory: true },
     });
+
+    const productsWithRatings = await Promise.all(
+      products.map(async (product) => {
+        const rating = await this.calculateProductRating(product.id);
+        return { ...product, rating };
+      }),
+    );
+
+    return productsWithRatings;
   }
 
   async findAllProducts(take: number, skip: number) {
-    return this.prisma.product.findMany({
+    const products = await this.prisma.product.findMany({
       take,
       skip,
       where: { isDeleted: false, isAvailable: true },
       include: { productCategory: true },
     });
+
+    const productsWithRatings = await Promise.all(
+      products.map(async (product) => {
+        const rating = await this.calculateProductRating(product.id);
+        return { ...product, rating };
+      }),
+    );
+
+    return productsWithRatings;
   }
 
   async findPopularProducts() {
@@ -87,7 +105,7 @@ export class ProductsRepository {
       });
   }
 
-  private async calculateProductRating(productId: string) {
+  async calculateProductRating(productId: string) {
     const result = await this.prisma.review.aggregate({
       _avg: {
         rating: true,
