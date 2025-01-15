@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, UseGuards } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { AddToCartDto } from './dto/addToCart.dto';
 import { RemoveFromCartDto } from './dto/removeFromCart.dto';

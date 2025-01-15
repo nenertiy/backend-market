@@ -8,20 +8,6 @@ import { RemoveFromCartDto } from './dto/removeFromCart.dto';
 export class CartRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  // async findCart(clientId: string) {
-  //   return this.prisma.cart.findUnique({
-  //     where: { clientId },
-  //     include: {
-  //       cartProduct: {
-  //         orderBy: { product: { name: 'asc' } },
-  //         include: {
-  //           product: true,
-  //         },
-  //       },
-  //     },
-  //   });
-  // }
-
   async findCart(clientId: string) {
     const cart = await this.prisma.cart.findUnique({
       where: { clientId },
@@ -34,6 +20,15 @@ export class CartRepository {
         },
       },
     });
+
+    if (!cart) {
+      return {
+        id: null,
+        cartProduct: [],
+        totalCount: 0,
+        totalPrice: 0,
+      };
+    }
 
     const totalCount = cart.cartProduct.reduce((count, cartProduct) => {
       if (!cartProduct.product.isDeleted) {
@@ -58,11 +53,11 @@ export class CartRepository {
 
   async addToCart(dto: AddToCartDto, clientId: string) {
     const cart = await this.findCart(clientId);
-    if (!cart) {
+    if (!cart.id) {
       const newCart = await this.createCart(clientId, dto.productId, dto.count);
       return newCart;
     }
-    const cartProduct = cart.cartProduct.find(
+    const cartProduct = await cart.cartProduct.find(
       (item) => item.productId === dto.productId,
     );
 
